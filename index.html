@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#1a0c08" />
+    <meta name="description" content="Một khoảng lặng để thắp nén tâm hương." />
+    <title>Tâm Hương</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <main class="phone-shell" id="ritual" data-phase="shake">
+      <div class="scene" aria-hidden="true"></div>
+      <div class="scene-shade" aria-hidden="true"></div>
+      <div class="grain" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <div class="brand-mark" aria-hidden="true">心</div>
+        <div class="brand-copy">
+          <span>TÂM HƯƠNG</span>
+          <small>Một phút an yên</small>
+        </div>
+        <button class="altar-toggle" id="altarToggle" type="button" aria-haspopup="dialog" aria-expanded="false">
+          <span id="currentAltar">Gia tiên</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
+        </button>
+        <button class="sound-toggle" type="button" aria-label="Bật âm thanh" aria-pressed="false">
+          <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12.5-.5a5 5 0 0 1 0 7M19.8 6a8.2 8.2 0 0 1 0 12"/></svg>
+          <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12 1 4 4m0-4-4 4"/></svg>
+        </button>
+      </header>
+
+      <div class="altar-dots" aria-hidden="true">
+        <i class="is-active" data-dot="ancestor"></i>
+        <i data-dot="maitreya"></i>
+        <i data-dot="guanyin"></i>
+        <i data-dot="amida"></i>
+        <i data-dot="wealth"></i>
+        <i data-dot="zen"></i>
+      </div>
+
+      <section class="intro-copy" aria-live="polite">
+        <p class="eyebrow" id="eyebrow">TĨNH TÂM · THÀNH Ý</p>
+        <h1 id="title">Thắp một nén<br /><em>tâm hương</em></h1>
+        <p class="message" id="message">Nhẹ lòng tưởng niệm, gửi điều lành đến những người ta thương.</p>
+      </section>
+
+      <div class="progress-orbit" id="progressOrbit" aria-label="Tiến độ tịnh hương">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle class="orbit-track" cx="24" cy="24" r="21" />
+          <circle class="orbit-value" cx="24" cy="24" r="21" />
+        </svg>
+        <span id="progressValue">0</span>
+      </div>
+
+      <div class="planted-incense" aria-hidden="true">
+        <img src="/assets/planted-incense-real.png" alt="" />
+      </div>
+
+      <div class="smoke-field" aria-hidden="true">
+        <img class="smoke smoke-a" src="/assets/incense-smoke-wisp-1.png" alt="" />
+        <img class="smoke smoke-b" src="/assets/incense-smoke-wisp-2.png" alt="" />
+        <img class="smoke smoke-c" src="/assets/incense-smoke-wisp-1.png" alt="" />
+      </div>
+
+      <div class="hand-layer" id="handLayer" aria-hidden="true">
+        <img src="/assets/praying-hands-incense.png" alt="" draggable="false" />
+      </div>
+
+      <button class="wish-button" id="wishButton" type="button" aria-haspopup="dialog" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.7A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z"/><path d="M12 8.3V14m-2.2-2.2h4.4"/></svg>
+        <span>Điều mong cầu</span>
+        <i aria-hidden="true"></i>
+      </button>
+
+      <button class="reset-button" id="resetButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 6M20 5v6h-6"/></svg>
+        Thắp nén hương khác
+      </button>
+
+      <p class="footer-note">Vuốt ngang đổi bàn thờ · Chậm lại một nhịp</p>
+      <div class="drag-surface" id="dragSurface" aria-label="Vùng tương tác thắp hương"></div>
+
+      <div class="picker-backdrop" id="pickerBackdrop" aria-hidden="true"></div>
+      <section class="altar-picker" id="altarPicker" role="dialog" aria-modal="true" aria-labelledby="pickerTitle" aria-hidden="true">
+        <div class="picker-handle" aria-hidden="true"></div>
+        <div class="picker-heading">
+          <div>
+            <p>KHÔNG GIAN TÂM LINH</p>
+            <h2 id="pickerTitle">Chọn bàn thờ</h2>
+          </div>
+          <button class="picker-close" id="pickerClose" type="button" aria-label="Đóng bảng chọn">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+          </button>
+        </div>
+        <div class="altar-options">
+          <button class="altar-option is-selected" type="button" data-altar="ancestor" aria-pressed="true">
+            <span class="option-image option-ancestor"></span>
+            <span class="option-copy"><strong>Gia tiên</strong><small>Tưởng nhớ cội nguồn</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="altar-option" type="button" data-altar="maitreya" aria-pressed="false">
+            <span class="option-image option-maitreya"></span>
+            <span class="option-copy"><strong>Phật Di Lặc</strong><small>Hoan hỷ · An lạc</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="altar-option" type="button" data-altar="guanyin" aria-pressed="false">
+            <span class="option-image option-guanyin"></span>
+            <span class="option-copy"><strong>Quan Âm</strong><small>Từ bi · Thanh tịnh</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="altar-option" type="button" data-altar="amida" aria-pressed="false">
+            <span class="option-image option-amida"></span>
+            <span class="option-copy"><strong>Phật A Di Đà</strong><small>Tĩnh tại · Sáng tâm</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="altar-option" type="button" data-altar="wealth" aria-pressed="false">
+            <span class="option-image option-wealth"></span>
+            <span class="option-copy"><strong>Thần Tài – Ông Địa</strong><small>May mắn · Sung túc</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="altar-option" type="button" data-altar="zen" aria-pressed="false">
+            <span class="option-image option-zen"></span>
+            <span class="option-copy"><strong>Thiền Sen</strong><small>Nhẹ lòng · An trú</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="wish-backdrop" id="wishBackdrop" aria-hidden="true"></div>
+      <section class="wish-sheet" id="wishSheet" role="dialog" aria-modal="true" aria-labelledby="wishTitle" aria-hidden="true">
+        <div class="picker-handle" aria-hidden="true"></div>
+        <div class="picker-heading wish-heading">
+          <div>
+            <p>GỬI THEO LÀN KHÓI HƯƠNG</p>
+            <h2 id="wishTitle">Điều mong cầu</h2>
+          </div>
+          <button class="picker-close" id="wishClose" type="button" aria-label="Đóng lời nguyện">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
+          </button>
+        </div>
+        <div class="wish-chips" aria-label="Lời nguyện gợi ý">
+          <button type="button" data-wish="Bình an cho gia đình">Bình an</button>
+          <button type="button" data-wish="Sức khỏe và an lành">Sức khỏe</button>
+          <button type="button" data-wish="Gia đạo thuận hòa">Gia đạo</button>
+          <button type="button" data-wish="Công việc hanh thông">Công việc</button>
+        </div>
+        <label class="wish-input-wrap" for="wishInput">
+          <textarea id="wishInput" maxlength="160" rows="4" placeholder="Viết điều bạn thành tâm mong cầu..."></textarea>
+          <span><b id="wishCount">0</b>/160</span>
+        </label>
+        <div class="wish-actions">
+          <button class="wish-clear" id="wishClear" type="button">Xóa lời nguyện</button>
+          <button class="wish-save" id="wishSave" type="button">
+            Gửi lời nguyện
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 10 3 3 7-7" /></svg>
+          </button>
+        </div>
+        <p class="wish-privacy">Lời nguyện chỉ được lưu trên thiết bị này.</p>
+      </section>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
