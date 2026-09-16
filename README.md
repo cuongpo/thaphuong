@@ -11,4 +11,10 @@ npm run dev
 
 ## GitHub Pages
 
-Mỗi lần có thay đổi được push lên nhánh `main`, GitHub Actions sẽ tự build và deploy website lên GitHub Pages.
+Để build và publish phiên bản mới lên nhánh `gh-pages`:
+
+```bash
+npm run deploy
+```
+
+Trong repository settings, chọn **Pages → Deploy from a branch → `gh-pages` → `/ (root)`**.
