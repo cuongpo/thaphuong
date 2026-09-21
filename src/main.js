@@ -393,6 +393,12 @@ function downloadShareImage(blob) {
   setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
 }
 
+// Computers get a direct download; the system share sheet only makes sense on
+// touch devices, where it also offers "Save Image" to the photo library.
+const isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches
+  && navigator.maxTouchPoints === 0;
+const SHARE_IDLE_LABEL = isDesktop ? "Tải hình" : "Chia sẻ hình";
+
 function setShareState(label, status = "", busy = false) {
   shareLabel.textContent = label;
   shareStatus.textContent = status;
@@ -408,7 +414,7 @@ async function shareImage() {
     if (!blob) throw new Error("Không thể tạo hình chia sẻ.");
 
     const file = new File([blob], "tam-huong.jpg", { type: "image/jpeg" });
-    if (navigator.share && navigator.canShare?.({ files: [file] })) {
+    if (!isDesktop && navigator.share && navigator.canShare?.({ files: [file] })) {
       try {
         await navigator.share({
           files: [file],
@@ -418,7 +424,7 @@ async function shareImage() {
         setShareState("Đã chia sẻ", "Hình đã được chia sẻ.");
       } catch (error) {
         if (error?.name === "AbortError") {
-          setShareState("Chia sẻ hình");
+          setShareState(SHARE_IDLE_LABEL);
           return;
         }
         downloadShareImage(blob);
@@ -429,7 +435,7 @@ async function shareImage() {
       setShareState("Đã lưu hình", "Hình đã được tải xuống thiết bị.");
     }
     navigator.vibrate?.(25);
-    setTimeout(() => setShareState("Chia sẻ hình"), 1800);
+    setTimeout(() => setShareState(SHARE_IDLE_LABEL), 1800);
   } catch {
     setShareState("Thử lại", "Không thể tạo hình. Vui lòng thử lại.");
   } finally {
@@ -599,7 +605,7 @@ function resetRitual() {
   directionChanges = 0;
   canPlantOnRelease = false;
   shareImagePromise = null;
-  setShareState("Chia sẻ hình");
+  setShareState(SHARE_IDLE_LABEL);
   ritual.style.setProperty("--swipe-preview", "0px");
   hand.style.setProperty("--hand-y", "0px");
   hand.style.setProperty("--hand-r", "0deg");
@@ -844,5 +850,6 @@ window.visualViewport?.addEventListener("resize", updateWishViewport);
 window.addEventListener("orientationchange", () => setTimeout(updateWishViewport, 120));
 
 setProgress(0);
+setShareState(SHARE_IDLE_LABEL);
 renderWish();
 if (!hasSeenOnboarding) setTimeout(openOnboarding, 450);
