@@ -478,7 +478,6 @@ function completeRitual() {
   ritual.dataset.phase = phase;
   const altar = altars[currentAltar];
   eyebrow.textContent = altar.doneEyebrow;
-  title.innerHTML = altar.doneTitle;
   message.textContent = altar.doneMessage;
   renderWish();
   const flash = document.createElement("div");
@@ -605,9 +604,8 @@ function resetRitual() {
   hand.style.setProperty("--hand-y", "0px");
   hand.style.setProperty("--hand-r", "0deg");
   eyebrow.textContent = altar.eyebrow;
-  title.classList.remove("custom-wish-title", "is-long-wish", "is-very-long-wish");
-  title.innerHTML = altar.title;
   message.textContent = altar.message;
+  renderWish();
   setProgress(0);
   tone(392, .25, .02);
 }
@@ -634,13 +632,12 @@ function renderWish() {
   wishButton.classList.toggle("has-wish", hasWish);
   wishClear.hidden = !hasWish;
 
-  if (phase !== "done") return;
-
+  // The wish replaces the heading in every phase, not only after the ritual.
   title.classList.toggle("custom-wish-title", hasWish);
   title.classList.toggle("is-long-wish", customWish.length > 60);
   title.classList.toggle("is-very-long-wish", customWish.length > 110);
   if (hasWish) title.textContent = customWish;
-  else title.innerHTML = altars[currentAltar].doneTitle;
+  else title.innerHTML = phase === "done" ? altars[currentAltar].doneTitle : altars[currentAltar].title;
 }
 
 function updateWishCount() {
