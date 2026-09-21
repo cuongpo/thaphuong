@@ -40,7 +40,6 @@ button { -webkit-tap-highlight-color: transparent; }
   user-select: none;
   -webkit-user-select: none;
   touch-action: none;
-  --altar-image: url("/assets/altar-background.png");
   --burner-bottom: 46%;
   --incense-height: 165px;
   --incense-sink: 10px;
@@ -51,10 +50,9 @@ button { -webkit-tap-highlight-color: transparent; }
   position: absolute;
   inset: 0;
   z-index: -5;
-  background-image: var(--altar-image);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transform: scale(1.015);
   translate: var(--scene-x, 0px) 0;
   animation: scene-breathe 8s ease-in-out infinite alternate;
@@ -187,7 +185,7 @@ button { -webkit-tap-highlight-color: transparent; }
 h1 {
   margin: 0;
   color: var(--cream);
-  font-family: "DM Serif Display", Georgia, serif;
+  font-family: "Playfair Display", Georgia, serif;
   font-size: clamp(36px, 10.5vw, 46px);
   font-weight: 400;
   line-height: .94;
@@ -373,7 +371,69 @@ h1.custom-wish-title.is-very-long-wish {
 .reset-button svg { width: 14px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
 .phone-shell:not([data-phase="done"]) .reset-button { opacity: 0 !important; pointer-events: none !important; transform: translateY(12px) !important; }
 
+.share-button {
+  position: absolute;
+  right: 0;
+  bottom: calc(max(31px, env(safe-area-inset-bottom)) + 74px);
+  left: 0;
+  z-index: 15;
+  display: flex;
+  width: max-content;
+  margin: auto;
+  padding: 11px 18px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgb(255 228 176 / 44%);
+  border-radius: 999px;
+  color: #2a130a;
+  background: linear-gradient(135deg, #f1cb80, #d89a40);
+  box-shadow: 0 12px 30px rgb(129 66 14 / 30%);
+  font-size: 9px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity .4s .72s, transform .4s .72s, filter .2s;
+  cursor: pointer;
+}
+.share-button:hover { filter: brightness(1.06); }
+.share-button:disabled { cursor: wait; filter: saturate(.65); }
+.share-button svg { width: 14px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
+[data-phase="done"] .share-button { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.phone-shell:not([data-phase="done"]) .share-button { opacity: 0 !important; pointer-events: none !important; transform: translateY(12px) !important; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 .footer-note { position: absolute; bottom: max(9px, env(safe-area-inset-bottom)); left: 0; z-index: 10; width: 100%; margin: 0; color: rgb(255 233 195 / 34%); font-size: 7px; font-weight: 300; letter-spacing: .12em; text-align: center; pointer-events: none; }
+
+.guide-button {
+  position: absolute;
+  bottom: calc(max(23px, env(safe-area-inset-bottom)) + 4px);
+  left: 18px;
+  z-index: 15;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  padding: 8px;
+  place-items: center;
+  border: 1px solid rgb(255 222 162 / 18%);
+  border-radius: 50%;
+  color: rgb(248 222 177 / 62%);
+  background: rgb(30 11 6 / 48%);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+.guide-button svg { width: 17px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.45; }
 
 .picker-backdrop {
   position: absolute;
@@ -396,6 +456,77 @@ h1.custom-wish-title.is-very-long-wish {
   pointer-events: none;
   transition: opacity .3s ease;
 }
+
+.guide-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 34;
+  opacity: 0;
+  background: rgb(8 3 2 / 64%);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+
+.onboarding-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  opacity: 0;
+  background: rgb(8 3 2 / 72%);
+  backdrop-filter: blur(5px);
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+
+.onboarding-card {
+  position: absolute;
+  right: 18px;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  left: 18px;
+  z-index: 41;
+  padding: 24px 20px 18px;
+  border: 1px solid rgb(255 224 168 / 20%);
+  border-radius: 24px;
+  color: #fff3db;
+  background: linear-gradient(155deg, rgb(58 27 16 / 98%), rgb(23 9 6 / 99%));
+  box-shadow: 0 24px 70px rgb(0 0 0 / 55%), inset 0 1px rgb(255 255 255 / 6%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(24px) scale(.98);
+  visibility: hidden;
+  transition: opacity .35s ease, transform .4s cubic-bezier(.22,.8,.28,1), visibility 0s .4s;
+}
+
+.onboarding-open .onboarding-backdrop { opacity: 1; pointer-events: auto; }
+.onboarding-open .onboarding-card { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); visibility: visible; transition-delay: 0s; }
+.onboarding-open .drag-surface { pointer-events: none; }
+
+.onboarding-gesture {
+  position: relative;
+  display: grid;
+  width: 66px;
+  height: 66px;
+  margin: -2px auto 14px;
+  place-items: center;
+  border: 1px solid rgb(235 181 93 / 24%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(232 171 72 / 14%), transparent 68%);
+}
+.gesture-incense { display: flex; height: 34px; align-items: flex-end; gap: 3px; animation: onboarding-move 1.7s ease-in-out infinite; }
+.gesture-incense i { display: block; width: 2px; height: 29px; border-radius: 2px; background: linear-gradient(#f9d181 0 18%, #ae3423 20% 100%); box-shadow: 0 -2px 6px rgb(245 180 73 / 45%); }
+.gesture-arrow { position: absolute; right: 8px; color: #e7b666; font-size: 20px; font-weight: 300; animation: onboarding-arrow 1.7s ease-in-out infinite; }
+.onboarding-eyebrow { margin: 0 0 5px; color: #dca958; font-size: 7px; font-weight: 500; letter-spacing: .25em; text-align: center; }
+.onboarding-card h2 { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 28px; font-weight: 400; letter-spacing: -.02em; text-align: center; }
+.onboarding-description { margin: 5px 0 18px; color: rgb(255 237 205 / 48%); font-size: 9px; font-weight: 300; text-align: center; }
+.onboarding-steps { display: grid; margin: 0; padding: 0; gap: 9px; list-style: none; }
+.onboarding-steps li { display: grid; grid-template-columns: 27px 1fr; padding: 9px 10px; align-items: center; gap: 10px; border: 1px solid rgb(255 227 178 / 9%); border-radius: 13px; background: rgb(255 255 255 / 3%); }
+.onboarding-steps li > span { display: grid; width: 25px; height: 25px; place-items: center; border: 1px solid rgb(229 172 81 / 34%); border-radius: 50%; color: #e9b766; font-family: "Playfair Display", Georgia, serif; font-size: 12px; }
+.onboarding-steps p { margin: 0; color: rgb(255 239 211 / 62%); font-size: 9px; font-weight: 300; line-height: 1.5; }
+.onboarding-steps strong { color: #f9e6c3; font-weight: 500; }
+.onboarding-start { display: block; width: 100%; margin-top: 16px; padding: 12px 16px; border: 1px solid rgb(255 226 169 / 38%); border-radius: 999px; color: #2b140a; background: linear-gradient(135deg, #f2cc80, #d99c43); box-shadow: 0 8px 22px rgb(190 105 25 / 20%); font-size: 10px; font-weight: 600; cursor: pointer; }
+.onboarding-note { margin: 9px 0 0; color: rgb(255 230 190 / 27%); font-size: 7px; font-weight: 300; text-align: center; }
+.onboarding-start:focus-visible { outline: 2px solid #f3cc82; outline-offset: 3px; }
 
 .altar-picker {
   position: absolute;
@@ -423,11 +554,59 @@ h1.custom-wish-title.is-very-long-wish {
 
 .wish-sheet {
   position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 56px);
+  right: 14px;
+  left: 14px;
+  z-index: 33;
+  max-height: calc(var(--visual-viewport-height, 100dvh) - env(safe-area-inset-top, 0px) - 72px);
+  padding: 16px 16px 14px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid rgb(255 224 168 / 20%);
+  border-radius: 22px;
+  color: #fff3db;
+  background: linear-gradient(180deg, rgb(48 21 12 / 99%), rgb(20 8 5 / 99%));
+  box-shadow: 0 24px 60px rgb(0 0 0 / 55%), inset 0 1px rgb(255 255 255 / 5%);
+  opacity: 0;
+  transform: translateY(-10px) scale(.97);
+  visibility: hidden;
+  pointer-events: none;
+  user-select: text;
+  -webkit-user-select: text;
+  touch-action: auto;
+  transition: opacity .24s ease, transform .3s cubic-bezier(.22,.8,.28,1), visibility 0s .3s;
+}
+.wish-open .wish-backdrop { opacity: 1; pointer-events: auto; }
+.wish-open .wish-sheet { opacity: 1; transform: none; visibility: visible; pointer-events: auto; transition-delay: 0s; }
+.wish-open .drag-surface { pointer-events: none; }
+.wish-heading { margin-bottom: 12px; }
+.wish-heading h2 { font-size: 23px; }
+.wish-chips { display: flex; margin-bottom: 10px; gap: 6px; flex-wrap: wrap; }
+.wish-chips button { flex: 0 0 auto; padding: 7px 11px; border: 1px solid rgb(236 181 92 / 20%); border-radius: 999px; color: rgb(255 232 192 / 78%); background: rgb(193 111 32 / 7%); font-size: 11px; cursor: pointer; }
+.wish-chips button:active { border-color: rgb(238 181 84 / 55%); background: rgb(190 108 28 / 18%); }
+.wish-input-wrap { position: relative; display: block; }
+/* 16px keeps iOS Safari from zooming the page when the field is focused. */
+.wish-input-wrap textarea { display: block; width: 100%; min-height: 96px; padding: 12px 14px 24px; resize: none; border: 1px solid rgb(255 223 165 / 16%); border-radius: 14px; outline: none; color: #fff0d3; background: rgb(255 255 255 / 4%); caret-color: #e8b55f; font: inherit; font-size: 16px; font-weight: 300; line-height: 1.5; user-select: text; -webkit-user-select: text; touch-action: auto; }
+.wish-input-wrap textarea::placeholder { color: rgb(255 235 199 / 30%); }
+.wish-input-wrap textarea:focus { border-color: rgb(226 168 77 / 48%); box-shadow: 0 0 0 3px rgb(226 168 77 / 7%); }
+.wish-input-wrap > span { position: absolute; right: 11px; bottom: 7px; color: rgb(255 229 187 / 32%); font-size: 10px; }
+.wish-input-wrap b { font-weight: 400; }
+.wish-actions { display: flex; margin-top: 12px; align-items: center; justify-content: space-between; gap: 10px; }
+.wish-clear { padding: 9px 4px; border: 0; color: rgb(255 230 190 / 45%); background: transparent; font-size: 11px; cursor: pointer; }
+.wish-save { display: flex; margin-left: auto; padding: 10px 16px; align-items: center; gap: 7px; border: 1px solid rgb(251 216 150 / 35%); border-radius: 999px; color: #2b140a; background: linear-gradient(135deg, #f0c779, #d79a3d); box-shadow: 0 7px 18px rgb(190 105 25 / 18%); font-size: 12px; font-weight: 500; cursor: pointer; }
+.wish-save svg { width: 14px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+.wish-privacy { margin: 10px 0 0; color: rgb(255 230 190 / 28%); font-size: 10px; font-weight: 300; text-align: center; }
+
+.guide-sheet {
+  position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 33;
-  padding: 9px 18px calc(17px + env(safe-area-inset-bottom));
+  z-index: 35;
+  display: flex;
+  max-height: min(82dvh, 760px);
+  flex-direction: column;
+  padding: 9px 18px calc(20px + env(safe-area-inset-bottom));
   border-top: 1px solid rgb(255 224 168 / 18%);
   border-radius: 25px 25px 0 0;
   color: #fff3db;
@@ -437,33 +616,33 @@ h1.custom-wish-title.is-very-long-wish {
   visibility: hidden;
   transition: transform .38s cubic-bezier(.22,.8,.28,1), visibility 0s .38s;
 }
-.wish-open .wish-backdrop { opacity: 1; pointer-events: auto; }
-.wish-open .wish-sheet { transform: translateY(0); visibility: visible; transition-delay: 0s; }
-.wish-open .drag-surface { pointer-events: none; }
-.wish-heading { margin-bottom: 12px; }
-.wish-chips { display: flex; margin-bottom: 11px; gap: 6px; overflow-x: auto; scrollbar-width: none; }
-.wish-chips::-webkit-scrollbar { display: none; }
-.wish-chips button { flex: 0 0 auto; padding: 7px 10px; border: 1px solid rgb(236 181 92 / 20%); border-radius: 999px; color: rgb(255 232 192 / 75%); background: rgb(193 111 32 / 7%); font-size: 8px; cursor: pointer; }
-.wish-chips button:active { border-color: rgb(238 181 84 / 55%); background: rgb(190 108 28 / 18%); }
-.wish-input-wrap { position: relative; display: block; }
-.wish-input-wrap textarea { display: block; width: 100%; min-height: 104px; padding: 13px 14px 26px; resize: none; border: 1px solid rgb(255 223 165 / 16%); border-radius: 15px; outline: none; color: #fff0d3; background: rgb(255 255 255 / 4%); caret-color: #e8b55f; font-size: 10px; font-weight: 300; line-height: 1.6; }
-.wish-input-wrap textarea::placeholder { color: rgb(255 235 199 / 30%); }
-.wish-input-wrap textarea:focus { border-color: rgb(226 168 77 / 48%); box-shadow: 0 0 0 3px rgb(226 168 77 / 7%); }
-.wish-input-wrap > span { position: absolute; right: 11px; bottom: 8px; color: rgb(255 229 187 / 30%); font-size: 7px; }
-.wish-input-wrap b { font-weight: 400; }
-.wish-actions { display: flex; margin-top: 12px; align-items: center; justify-content: space-between; gap: 10px; }
-.wish-clear { padding: 9px 4px; border: 0; color: rgb(255 230 190 / 40%); background: transparent; font-size: 8px; cursor: pointer; }
-.wish-save { display: flex; padding: 10px 14px; align-items: center; gap: 7px; border: 1px solid rgb(251 216 150 / 35%); border-radius: 999px; color: #2b140a; background: linear-gradient(135deg, #f0c779, #d79a3d); box-shadow: 0 7px 18px rgb(190 105 25 / 18%); font-size: 9px; font-weight: 500; cursor: pointer; }
-.wish-save svg { width: 13px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
-.wish-privacy { margin: 10px 0 0; color: rgb(255 230 190 / 25%); font-size: 7px; font-weight: 300; text-align: center; }
+.guide-open .guide-backdrop { opacity: 1; pointer-events: auto; }
+.guide-open .guide-sheet { transform: translateY(0); visibility: visible; transition-delay: 0s; }
+.guide-open .drag-surface { pointer-events: none; }
+.guide-heading { flex: 0 0 auto; }
+.guide-content { min-height: 0; padding: 0 2px 4px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: rgb(226 168 77 / 30%) transparent; }
+.guide-intro { margin: 0 0 17px; color: rgb(255 239 211 / 70%); font-size: 10px; font-weight: 300; line-height: 1.7; }
+.guide-content h3 { margin: 0 0 9px; color: #edbd6d; font-family: "Playfair Display", Georgia, serif; font-size: 17px; font-weight: 400; }
+.guide-content ol { margin: 0 0 19px; padding-left: 19px; color: rgb(255 239 211 / 68%); font-size: 9px; font-weight: 300; line-height: 1.65; }
+.guide-content li + li { margin-top: 4px; }
+.faq-list { border-top: 1px solid rgb(255 226 172 / 12%); }
+.faq-list details { border-bottom: 1px solid rgb(255 226 172 / 12%); }
+.faq-list summary { position: relative; padding: 13px 24px 13px 0; color: #f8e5c2; font-size: 10px; list-style: none; cursor: pointer; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { position: absolute; top: 50%; right: 3px; content: "+"; color: #dca959; font-size: 16px; font-weight: 300; transform: translateY(-50%); }
+.faq-list details[open] summary::after { content: "−"; }
+.faq-list p { margin: -2px 18px 13px 0; color: rgb(255 237 205 / 56%); font-size: 9px; font-weight: 300; line-height: 1.65; }
+.guide-more { display: flex; align-items: center; justify-content: space-between; margin-top: 15px; padding: 11px 13px; border: 1px solid rgb(226 168 77 / 22%); border-radius: 10px; color: #edbd6d; background: rgb(226 168 77 / 6%); font-size: 10px; text-decoration: none; transition: border-color .2s ease, background .2s ease; }
+.guide-more:hover { border-color: rgb(226 168 77 / 42%); background: rgb(226 168 77 / 10%); }
+.guide-more svg { width: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
 
 .picker-handle { width: 34px; height: 3px; margin: 0 auto 15px; border-radius: 3px; background: rgb(255 229 183 / 25%); }
 .picker-heading { display: flex; margin-bottom: 13px; align-items: center; justify-content: space-between; }
 .picker-heading p { margin: 0 0 4px; color: #d7a653; font-size: 7px; font-weight: 500; letter-spacing: .22em; }
-.picker-heading h2 { margin: 0; font-family: "DM Serif Display", Georgia, serif; font-size: 25px; font-weight: 400; letter-spacing: -.02em; }
+.picker-heading h2 { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 25px; font-weight: 400; letter-spacing: -.02em; }
 .picker-close { display: grid; width: 34px; height: 34px; padding: 0; place-items: center; border: 1px solid rgb(255 226 172 / 16%); border-radius: 50%; color: #edd5aa; background: rgb(255 255 255 / 3%); cursor: pointer; }
 .picker-close svg { width: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 1.4; }
-.picker-close:focus-visible, .altar-option:focus-visible, .altar-toggle:focus-visible, .wish-button:focus-visible, .wish-chips button:focus-visible, .wish-save:focus-visible { outline: 2px solid #dca959; outline-offset: 2px; }
+.picker-close:focus-visible, .altar-option:focus-visible, .altar-toggle:focus-visible, .wish-button:focus-visible, .wish-chips button:focus-visible, .wish-save:focus-visible, .guide-button:focus-visible, .share-button:focus-visible, .faq-list summary:focus-visible, .guide-more:focus-visible { outline: 2px solid #dca959; outline-offset: 2px; }
 
 .altar-options { display: grid; min-height: 0; padding-right: 2px; gap: 8px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
 .altar-options::-webkit-scrollbar { display: none; }
@@ -486,12 +665,12 @@ h1.custom-wish-title.is-very-long-wish {
 .altar-option:active { transform: scale(.985); }
 .altar-option.is-selected { border-color: rgb(234 179 88 / 38%); background: linear-gradient(90deg, rgb(182 105 31 / 14%), rgb(255 255 255 / 3%)); }
 .option-image { width: 54px; height: 54px; border-radius: 11px; background-position: center; background-size: cover; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 8%); }
-.option-ancestor { background-image: url("/assets/altar-background.png"); }
-.option-maitreya { background-image: url("/assets/altar-di-lac.png"); }
-.option-guanyin { background-image: url("/assets/altar-quan-am.png"); }
-.option-amida { background-image: url("/assets/altar-amida.png"); }
-.option-wealth { background-image: url("/assets/altar-than-tai.png"); }
-.option-zen { background-image: url("/assets/altar-thien-sen.png"); }
+.option-ancestor { background-image: url("/assets/altar-background-thumb.webp"); }
+.option-maitreya { background-image: url("/assets/altar-di-lac-thumb.webp"); }
+.option-guanyin { background-image: url("/assets/altar-quan-am-thumb.webp"); }
+.option-amida { background-image: url("/assets/altar-amida-thumb.webp"); }
+.option-wealth { background-image: url("/assets/altar-than-tai-thumb.webp"); }
+.option-zen { background-image: url("/assets/altar-thien-sen-thumb.webp"); }
 .option-copy { display: flex; flex-direction: column; gap: 4px; }
 .option-copy strong { color: #ffefd2; font-size: 11px; font-weight: 500; }
 .option-copy small { color: rgb(255 237 205 / 47%); font-size: 8px; font-weight: 300; }
@@ -510,6 +689,8 @@ h1.custom-wish-title.is-very-long-wish {
 .completion-flash { position: absolute; inset: 0; z-index: 14; pointer-events: none; background: radial-gradient(circle at 50% 51%, rgb(255 210 118 / 30%), transparent 35%); animation: flash 1.2s ease-out both; }
 
 @keyframes incense-glow { to { filter: brightness(1.08) saturate(1.05); } }
+@keyframes onboarding-move { 0%, 100% { transform: translateY(4px); } 50% { transform: translateY(-5px); } }
+@keyframes onboarding-arrow { 0%, 100% { opacity: .45; transform: translateY(3px); } 50% { opacity: 1; transform: translateY(-3px); } }
 @keyframes smoke-photo-a {
   0% { opacity: 0; transform: translate3d(-50%, 18px, 0) scale(.72) rotate(-1deg); }
   15% { opacity: .34; }
@@ -540,6 +721,7 @@ h1.custom-wish-title.is-very-long-wish {
   .progress-orbit { top: 205px; }
   .hand-layer { top: 20%; width: 70%; }
   .footer-note { display: none; }
+  .guide-button { bottom: calc(max(10px, env(safe-area-inset-bottom)) + 2px); }
   .phone-shell { --incense-height: 135px; }
   .planted-incense { top: auto; }
   .smoke-field { top: auto; }
@@ -550,6 +732,17 @@ h1.custom-wish-title.is-very-long-wish {
   .altar-options { gap: 5px; }
   .altar-option { min-height: 55px; }
   .option-image { width: 47px; height: 47px; }
+  .guide-sheet { max-height: 90dvh; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+  .onboarding-card { right: 14px; bottom: calc(10px + env(safe-area-inset-bottom)); left: 14px; padding: 16px 16px 13px; }
+  .onboarding-gesture { width: 50px; height: 50px; margin-bottom: 8px; }
+  .gesture-incense { height: 28px; }
+  .gesture-incense i { height: 24px; }
+  .onboarding-card h2 { font-size: 24px; }
+  .onboarding-description { margin-bottom: 10px; }
+  .onboarding-steps { gap: 6px; }
+  .onboarding-steps li { padding: 6px 9px; }
+  .onboarding-start { margin-top: 10px; padding-block: 10px; }
+  .onboarding-note { margin-top: 6px; }
 }
 
 @media (min-width: 431px) {
