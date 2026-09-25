@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-11NJNSZW2Q"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-11NJNSZW2Q');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1a0c08" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Gõ mõ online để tĩnh tâm. Chạm để gõ mõ, nghe tiếng mõ gỗ, đếm số tiếng theo tràng 108 và tự động gõ đều nhịp khi niệm Phật." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://cuongpo.github.io/thaphuong/go-mo/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:site_name" content="Tâm Hương" />
+    <meta property="og:title" content="Gõ Mõ Online – Tĩnh Tâm Từng Tiếng | Tâm Hương" />
+    <meta property="og:description" content="Chạm để gõ mõ, đếm từng tiếng theo tràng 108 và giữ nhịp an yên." />
+    <meta property="og:url" content="https://cuongpo.github.io/thaphuong/go-mo/" />
+    <meta property="og:image" content="https://cuongpo.github.io/thaphuong/social-card.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <title>Gõ Mõ Online – Tĩnh Tâm Từng Tiếng | Tâm Hương</title>
+    <link rel="icon" href="/thaphuong/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="/thaphuong/assets/woodenFish-Bybkhe0k.js"></script>
+    <link rel="modulepreload" crossorigin href="/thaphuong/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="stylesheet" crossorigin href="/thaphuong/assets/woodenFish-SGVGSkZC.css">
+  </head>
+  <body>
+    <main class="mo-shell" id="moShell">
+      <div class="grain" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <a class="back-link" href="/thaphuong/" aria-label="Về trang thắp hương">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H5m4-4-4 4 4 4" /></svg>
+        </a>
+        <div class="brand-copy">
+          <span>GÕ MÕ</span>
+          <small>Tĩnh tâm từng tiếng</small>
+        </div>
+        <button class="sound-toggle" id="soundToggle" type="button" aria-label="Tắt âm thanh" aria-pressed="true">
+          <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12.5-.5a5 5 0 0 1 0 7M19.8 6a8.2 8.2 0 0 1 0 12"/></svg>
+          <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12 1 4 4m0-4-4 4"/></svg>
+        </button>
+      </header>
+
+      <section class="counter" aria-live="off">
+        <div class="ring" role="progressbar" id="ring" aria-label="Tiến độ tràng mõ" aria-valuemin="0" aria-valuemax="108" aria-valuenow="0">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ring-track" cx="60" cy="60" r="54" />
+            <circle class="ring-value" id="ringValue" cx="60" cy="60" r="54" />
+          </svg>
+          <div class="ring-copy">
+            <strong id="count">0</strong>
+            <small id="countLabel">/ 108 tiếng</small>
+          </div>
+        </div>
+        <p class="round-note" id="roundNote">Tràng thứ 1</p>
+      </section>
+
+      <button class="mo-stage" id="moStage" type="button" aria-label="Gõ mõ (phím cách hoặc Enter)">
+        <span class="ripple-layer" id="rippleLayer" aria-hidden="true"></span>
+        <svg class="mo" id="mo" viewBox="0 0 240 200" aria-hidden="true">
+          <defs>
+            <radialGradient id="moBody" cx="42%" cy="32%" r="75%">
+              <stop offset="0" stop-color="#c0512c" />
+              <stop offset=".45" stop-color="#8a2a14" />
+              <stop offset="1" stop-color="#3e0f06" />
+            </radialGradient>
+            <linearGradient id="moGold" x1="0" x2="1">
+              <stop offset="0" stop-color="#a86b24" />
+              <stop offset=".5" stop-color="#f4cf82" />
+              <stop offset="1" stop-color="#a86b24" />
+            </linearGradient>
+            <radialGradient id="moShine" cx="35%" cy="25%" r="40%">
+              <stop offset="0" stop-color="#ffd9a0" stop-opacity=".55" />
+              <stop offset="1" stop-color="#ffd9a0" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <ellipse class="mo-shadow" cx="120" cy="186" rx="88" ry="9" />
+          <!-- cushion -->
+          <path d="M34 170c10-14 162-14 172 0 4 6-2 12-10 13H44c-8-1-14-7-10-13Z" fill="#6d1c10" />
+          <path d="M40 168c14-8 146-8 160 0" fill="none" stroke="#e5a94f" stroke-opacity=".5" stroke-width="1.5" />
+          <!-- body -->
+          <path d="M120 30c-58 0-96 40-96 82 0 34 30 58 96 58s96-24 96-58c0-42-38-82-96-82Z" fill="url(#moBody)" />
+          <!-- handle knob (twin fish heads) -->
+          <path d="M96 34c4-14 44-14 48 0-8 6-40 6-48 0Z" fill="#7a2311" />
+          <circle cx="104" cy="31" r="3" fill="#f0c574" />
+          <circle cx="136" cy="31" r="3" fill="#f0c574" />
+          <!-- scales -->
+          <g fill="none" stroke="#f3c77a" stroke-opacity=".32" stroke-width="1.4">
+            <path d="M70 72q10 10 20 0q10 10 20 0q10 10 20 0q10 10 20 0q10 10 20 0" />
+            <path d="M58 90q10 10 20 0q10 10 20 0q10 10 20 0q10 10 20 0q10 10 20 0q10 10 20 0" />
+          </g>
+          <!-- mouth slit -->
+          <path d="M44 124c30 12 122 12 152 0" fill="none" stroke="url(#moGold)" stroke-width="3" />
+          <path d="M50 128c28 16 112 16 140 0-6 16-40 26-70 26s-64-10-70-26Z" fill="#1a0502" />
+          <path class="mo-strike" d="M120 30c-58 0-96 40-96 82 0 34 30 58 96 58s96-24 96-58c0-42-38-82-96-82Z" fill="#ffd28a" />
+          <path d="M120 30c-58 0-96 40-96 82 0 34 30 58 96 58s96-24 96-58c0-42-38-82-96-82Z" fill="url(#moShine)" />
+        </svg>
+        <svg class="mallet" id="mallet" viewBox="0 0 120 120" aria-hidden="true">
+          <rect x="18" y="56" width="92" height="7" rx="3.5" fill="#7b4a22" />
+          <rect x="18" y="56" width="92" height="2" rx="1" fill="#c78d4e" opacity=".6" />
+          <ellipse cx="18" cy="59.5" rx="15" ry="13" fill="#5a2a14" />
+          <ellipse cx="14" cy="55" rx="6" ry="4" fill="#d9a066" opacity=".45" />
+        </svg>
+      </button>
+
+      <p class="hint" id="hint">Chạm vào mõ để gõ · Phím cách trên máy tính</p>
+
+      <section class="stats" aria-label="Thống kê">
+        <div><strong id="todayCount">0</strong><small>Hôm nay</small></div>
+        <div><strong id="roundsCount">0</strong><small>Tràng</small></div>
+        <div><strong id="totalCount">0</strong><small>Tổng cộng</small></div>
+      </section>
+
+      <section class="controls">
+        <div class="control-row">
+          <span class="control-label">Mục tiêu</span>
+          <div class="segmented" id="targetGroup" role="radiogroup" aria-label="Số tiếng mỗi tràng">
+            <button type="button" role="radio" data-target="21" aria-checked="false">21</button>
+            <button type="button" role="radio" data-target="54" aria-checked="false">54</button>
+            <button type="button" role="radio" data-target="108" aria-checked="true">108</button>
+            <button type="button" role="radio" data-target="0" aria-checked="false">∞</button>
+          </div>
+        </div>
+        <div class="control-row">
+          <span class="control-label">Tự gõ</span>
+          <div class="segmented" id="tempoGroup" role="radiogroup" aria-label="Nhịp tự động gõ">
+            <button type="button" role="radio" data-bpm="0" aria-checked="true">Tắt</button>
+            <button type="button" role="radio" data-bpm="50" aria-checked="false">Chậm</button>
+            <button type="button" role="radio" data-bpm="72" aria-checked="false">Vừa</button>
+            <button type="button" role="radio" data-bpm="100" aria-checked="false">Nhanh</button>
+          </div>
+        </div>
+        <button class="reset-button" id="resetButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 6M20 5v6h-6"/></svg>
+          Bắt đầu tràng mới
+        </button>
+      </section>
+      <p class="visually-hidden" id="liveStatus" aria-live="polite"></p>
+    </main>
+  </body>
+</html>
