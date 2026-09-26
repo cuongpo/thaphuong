@@ -366,7 +366,7 @@ async function createShareImage(altarKey, wish) {
   context.fillStyle = "rgba(255, 235, 199, .5)";
   context.font = '300 9px "Be Vietnam Pro", sans-serif';
   setLetterSpacing(context, ".4px");
-  context.fillText("cuongpo.github.io/thaphuong", width / 2, height - 38);
+  context.fillText("pray.cuongpo.com", width / 2, height - 38);
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {

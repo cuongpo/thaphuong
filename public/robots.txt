@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cuongpo.github.io/thaphuong/sitemap.xml
+Sitemap: https://pray.cuongpo.com/sitemap.xml
