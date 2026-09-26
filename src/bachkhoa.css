@@ -159,26 +159,33 @@ button { -webkit-tap-highlight-color: transparent; }
 .ritual-stage { position: relative; z-index: 2; flex: 1 1 220px; min-height: 175px; pointer-events: none; }
 .incense-sticks {
   position: absolute;
-  bottom: 7px;
+  bottom: 60px;
   left: 50%;
   z-index: 4;
-  width: clamp(84px, 22vw, 106px);
+  width: clamp(68px, 18vw, 86px);
   height: auto;
-  opacity: .82;
-  filter: drop-shadow(0 0 7px rgb(255 69 30 / 30%));
-  transform: translateX(-50%) translateY(39%);
+  opacity: .7;
+  filter: drop-shadow(0 0 8px rgb(255 69 30 / 28%));
+  transform: translateX(-50%) translateY(8%);
   transform-origin: 50% 100%;
   transition: filter .7s ease, opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1);
 }
-.incense-bowl { position: absolute; bottom: 0; left: 50%; z-index: 5; width: 116px; height: 60px; transform: translateX(-50%); }
-.bowl-rim { position: absolute; top: 0; left: 0; width: 100%; height: 26px; border: 2px solid #e5aa50; border-radius: 50%; background: radial-gradient(ellipse, #4e101a 0 38%, #a52f30 40% 65%, #e5a84c 67% 72%, #821b27 74%); box-shadow: 0 4px 10px rgb(5 0 1 / 42%), inset 0 2px 5px rgb(255 220 137 / 35%); }
-.bowl-body { position: absolute; top: 13px; left: 11px; display: grid; width: 94px; height: 48px; place-items: center; border: 1px solid #bc752e; border-radius: 8px 8px 37px 37px; color: rgb(255 211 117 / 72%); background: linear-gradient(90deg, #6d1420, #b83b36 48%, #761622); box-shadow: inset 0 0 18px rgb(255 178 69 / 12%), 0 8px 18px rgb(4 0 1 / 40%); font-family: Georgia, serif; font-size: 10px; font-weight: 700; letter-spacing: .18em; }
+.incense-burner {
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  z-index: 6;
+  width: clamp(135px, 36vw, 164px);
+  height: auto;
+  filter: drop-shadow(0 12px 15px rgb(4 0 1 / 45%));
+  transform: translateX(-50%);
+  transform-origin: 50% 90%;
+  transition: filter .7s ease, transform .7s cubic-bezier(.2,.8,.2,1);
+}
 .incense-glow { position: absolute; bottom: 12px; left: 50%; width: 210px; height: 145px; border-radius: 50%; opacity: .15; background: radial-gradient(circle, rgb(255 177 45 / 48%), transparent 67%); filter: blur(9px); transform: translateX(-50%); transition: opacity .7s ease, transform .7s ease; }
 
-.smoke-field { position: absolute; bottom: 112px; left: 50%; z-index: 3; width: 150px; height: 150px; opacity: 0; transform: translateX(-50%); transition: opacity .8s ease; }
-.smoke-field i { position: absolute; bottom: 0; left: 50%; width: 2px; height: 120px; border-radius: 50%; background: linear-gradient(180deg, transparent, rgb(255 228 193 / 45%) 55%, rgb(255 197 121 / 4%)); filter: blur(3px); transform-origin: 50% 100%; animation: smoke-rise 3.7s ease-in-out infinite; }
-.smoke-field i:nth-child(2) { margin-left: -15px; height: 105px; animation-delay: -1.2s; transform: rotate(-8deg); }
-.smoke-field i:nth-child(3) { margin-left: 15px; height: 112px; animation-delay: -2.1s; transform: rotate(9deg); }
+.smoke-field { position: absolute; bottom: 162px; left: 50%; z-index: 3; width: 180px; height: 270px; opacity: 0; transform: translateX(-50%); transition: opacity .8s ease; }
+.smoke-art { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgb(255 201 123 / 20%)); transform-origin: 50% 100%; animation: smoke-float 5.5s ease-in-out infinite alternate; }
 
 .spark-field { position: absolute; inset: 0; z-index: 8; overflow: hidden; }
 .spark-field i { position: absolute; bottom: 42px; left: var(--x); width: 4px; height: 4px; border-radius: 50%; background: #ffd575; box-shadow: 0 0 8px #ff9e36; animation: spark-rise var(--duration) ease-out var(--delay) both; }
@@ -223,11 +230,13 @@ button { -webkit-tap-highlight-color: transparent; }
 .bk-footer { z-index: 6; display: flex; margin-top: 7px; justify-content: space-between; gap: 12px; color: rgb(255 238 208 / 34%); font-size: 6.5px; line-height: 1.35; }
 .bk-footer span:last-child { text-align: right; }
 
-.bk-shell[data-state="holding"] .incense-sticks { opacity: 1; filter: drop-shadow(0 0 11px rgb(255 79 31 / 55%)); transform: translateX(-50%) translateY(36%) scale(1.025); }
+.bk-shell[data-state="holding"] .incense-sticks { opacity: 1; filter: drop-shadow(0 0 12px rgb(255 79 31 / 58%)); transform: translateX(-50%) translateY(5%) scale(1.025); }
+.bk-shell[data-state="holding"] .incense-burner { filter: drop-shadow(0 13px 18px rgb(4 0 1 / 48%)) drop-shadow(0 0 8px rgb(242 163 61 / 18%)); transform: translateX(-50%) scale(1.015); }
 .bk-shell[data-state="holding"] .incense-glow { opacity: var(--hold-progress); transform: translateX(-50%) scale(1.08); }
 .bk-shell[data-state="holding"] .hold-button { color: #fff1d3; }
 .bk-shell[data-state="done"] .course-card { opacity: .45; transform: scale(.975); pointer-events: none; }
-.bk-shell[data-state="done"] .incense-sticks { opacity: 1; filter: drop-shadow(0 0 14px rgb(255 95 32 / 76%)); transform: translateX(-50%) translateY(33%) scale(1.04); }
+.bk-shell[data-state="done"] .incense-sticks { opacity: 1; filter: drop-shadow(0 0 15px rgb(255 95 32 / 78%)); transform: translateX(-50%) translateY(3%) scale(1.04); }
+.bk-shell[data-state="done"] .incense-burner { filter: drop-shadow(0 14px 19px rgb(4 0 1 / 50%)) drop-shadow(0 0 11px rgb(242 163 61 / 27%)); transform: translateX(-50%) scale(1.025); }
 .bk-shell[data-state="done"] .incense-glow { opacity: .72; transform: translateX(-50%) scale(1.2); }
 .bk-shell[data-state="done"] .smoke-field { opacity: 1; }
 .bk-shell[data-state="done"] .action-idle { display: none; }
@@ -236,12 +245,7 @@ button { -webkit-tap-highlight-color: transparent; }
 
 button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid #ffd475; outline-offset: 3px; }
 
-@keyframes smoke-rise {
-  0% { opacity: 0; translate: 0 12px; scale: .8 1; }
-  24% { opacity: .5; }
-  65% { opacity: .26; translate: 9px -48px; scale: 2.4 1.1; }
-  100% { opacity: 0; translate: -7px -104px; scale: 3.2 .8; }
-}
+@keyframes smoke-float { from { translate: -4px 5px; rotate: -1.2deg; scale: .96 1; } to { translate: 5px -7px; rotate: 1.2deg; scale: 1.04 1.03; } }
 @keyframes spark-rise { 0% { opacity: 0; translate: 0 8px; scale: .4; } 15% { opacity: 1; } 100% { opacity: 0; translate: var(--drift) -155px; scale: 0; } }
 @keyframes done-arrive { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
 @keyframes input-shake { 20%, 60% { translate: -5px 0; } 40%, 80% { translate: 5px 0; } }
@@ -256,8 +260,9 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid 
   .course-input-wrap input { height: 38px; }
   .course-chips { margin-top: 6px; }
   .ritual-stage { min-height: 130px; }
-  .incense-sticks { width: 76px; }
-  .incense-bowl { transform: translateX(-50%) scale(.87); transform-origin: 50% 100%; }
+  .incense-sticks { bottom: 51px; width: 64px; }
+  .incense-burner { width: 126px; }
+  .smoke-field { bottom: 142px; width: 148px; height: 222px; }
   .bk-footer { display: none; }
 }
 
