@@ -9,6 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: page("./index.html"),
+        bachkhoa: page("./bachkhoa/index.html"),
         blog: page("./blog/index.html"),
         guide: page("./blog/huong-dan-thap-huong-online/index.html"),
         remembrance: page("./blog/thap-huong-cho-nguoi-da-khuat-o-xa/index.html"),
