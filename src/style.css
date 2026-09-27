@@ -63,11 +63,11 @@ button { -webkit-tap-highlight-color: transparent; }
 
 .scene-burner {
   position: absolute;
-  top: calc(100% - var(--burner-bottom) - 60px);
+  top: calc(100% - var(--burner-bottom) - var(--burner-opening-offset, 60px));
   left: 50%;
   z-index: 4;
   display: block;
-  width: 210px;
+  width: var(--burner-width, 210px);
   height: auto;
   pointer-events: none;
   filter: drop-shadow(0 15px 20px rgb(0 0 0 / 42%));
@@ -693,6 +693,7 @@ h1.custom-wish-title.is-very-long-wish {
 .option-wealth { background-image: url("/assets/altar-than-tai-thumb.webp"); }
 .option-zen { background-image: url("/assets/altar-thien-sen-thumb.webp"); }
 .option-bachkhoa { background-image: url("/assets/bachkhoa-campus-480.webp"); }
+.option-uet { background-image: url("/assets/uet-campus-480.webp"); }
 .option-copy { display: flex; flex-direction: column; gap: 4px; }
 .option-copy strong { color: #ffefd2; font-size: 11px; font-weight: 500; }
 .option-copy small { color: rgb(255 237 205 / 47%); font-size: 8px; font-weight: 300; }

@@ -127,6 +127,8 @@ const altars = {
   bachkhoa: {
     ...altarImage("bachkhoa-campus", 1024),
     burnerImage: "bachkhoa-burner.webp",
+    burnerWidth: 210,
+    burnerOpeningRatio: .28,
     label: "Bách khoa",
     burnerBottom: "37%",
     placeTarget: 180,
@@ -136,6 +138,21 @@ const altars = {
     doneEyebrow: "HƯƠNG ĐÃ THẮP · TÂM ĐÃ TĨNH",
     doneTitle: "Nguyện kỳ này<br><em>qua môn</em>",
     doneMessage: "May mắn 10%, ôn bài 90%. Giờ mở giáo trình thôi."
+  },
+  uet: {
+    ...altarImage("uet-campus", 1024),
+    burnerImage: "uet-burner.webp",
+    burnerWidth: 260,
+    burnerOpeningRatio: .15,
+    label: "UET",
+    burnerBottom: "37%",
+    placeTarget: 180,
+    eyebrow: "TRƯỚC DEADLINE · BÌNH TĨNH NÀO",
+    title: "Thắp hương<br><em>cầu qua môn</em>",
+    message: "Gửi một chút may mắn cho môn thi và deadline đang làm bạn mất ngủ.",
+    doneEyebrow: "HƯƠNG ĐÃ THẮP · TÂM ĐÃ TĨNH",
+    doneTitle: "Nguyện kỳ này<br><em>qua môn</em>",
+    doneMessage: "May mắn 10%, học và debug 90%. Giờ quay lại xử lý deadline thôi."
   }
 };
 
@@ -294,10 +311,11 @@ async function createShareImage(altarKey, wish) {
   // A page-specific burner sits on the same insertion line as the baked-in
   // burners used by the original altar scenes.
   if (burner) {
-    const burnerWidth = 210;
+    const burnerWidth = altar.burnerWidth || 210;
     const burnerHeight = burner.naturalHeight * (burnerWidth / burner.naturalWidth);
     const burnerLineY = height * (1 - parseFloat(altar.burnerBottom) / 100);
-    context.drawImage(burner, (width - burnerWidth) / 2, burnerLineY - burnerHeight * .28, burnerWidth, burnerHeight);
+    const burnerOpeningRatio = altar.burnerOpeningRatio || .28;
+    context.drawImage(burner, (width - burnerWidth) / 2, burnerLineY - burnerHeight * burnerOpeningRatio, burnerWidth, burnerHeight);
   }
 
   // .planted-incense and .smoke-field, positioned from the altar's burner line.
