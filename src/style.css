@@ -61,6 +61,19 @@ button { -webkit-tap-highlight-color: transparent; }
 .scene.is-switching { opacity: 0; }
 .scene.no-transition { transition: none; }
 
+.scene-burner {
+  position: absolute;
+  top: calc(100% - var(--burner-bottom) - 60px);
+  left: 50%;
+  z-index: 4;
+  display: block;
+  width: 210px;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 15px 20px rgb(0 0 0 / 42%));
+  transform: translateX(-50%);
+}
+
 .scene-shade {
   position: absolute;
   inset: 0;
@@ -89,6 +102,14 @@ button { -webkit-tap-highlight-color: transparent; }
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.brand-home {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
 }
 
 .altar-dots {
@@ -671,6 +692,7 @@ h1.custom-wish-title.is-very-long-wish {
 .option-amida { background-image: url("/assets/altar-amida-thumb.webp"); }
 .option-wealth { background-image: url("/assets/altar-than-tai-thumb.webp"); }
 .option-zen { background-image: url("/assets/altar-thien-sen-thumb.webp"); }
+.option-bachkhoa { background-image: url("/assets/bachkhoa-campus-480.webp"); }
 .option-copy { display: flex; flex-direction: column; gap: 4px; }
 .option-copy strong { color: #ffefd2; font-size: 11px; font-weight: 500; }
 .option-copy small { color: rgb(255 237 205 / 47%); font-size: 8px; font-weight: 300; }

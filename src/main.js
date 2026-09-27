@@ -1,13 +1,13 @@
 import "./style.css";
 
 const assetUrl = (filename) => `${import.meta.env.BASE_URL}assets/${filename}`;
-const altarImage = (name) => {
+const altarImage = (name, fullWidth = 941) => {
   const compact = assetUrl(`${name}-480.webp`);
   const full = assetUrl(`${name}.webp`);
   return {
     image: compact,
     imageName: name,
-    imageSrcset: `${compact} 480w, ${full} 941w`
+    imageSrcset: `${compact} 480w, ${full} ${fullWidth}w`
   };
 };
 
@@ -123,6 +123,19 @@ const altars = {
     doneEyebrow: "THÂN AN · TÂM NHẸ",
     doneTitle: "Một khoảng<br><em>thảnh thơi</em>",
     doneMessage: "Nguyện tâm như sen, bình dị giữa đời và trong sáng giữa mọi đổi thay."
+  },
+  bachkhoa: {
+    ...altarImage("bachkhoa-campus", 1024),
+    burnerImage: "bachkhoa-burner.webp",
+    label: "Bách khoa",
+    burnerBottom: "37%",
+    placeTarget: 180,
+    eyebrow: "TRƯỚC GIỜ G · BÌNH TĨNH NÀO",
+    title: "Thắp hương<br><em>cầu qua môn</em>",
+    message: "Gửi một chút may mắn cho môn đang làm bạn mất ngủ.",
+    doneEyebrow: "HƯƠNG ĐÃ THẮP · TÂM ĐÃ TĨNH",
+    doneTitle: "Nguyện kỳ này<br><em>qua môn</em>",
+    doneMessage: "May mắn 10%, ôn bài 90%. Giờ mở giáo trình thôi."
   }
 };
 
@@ -142,16 +155,22 @@ let previousDirection = 0;
 let directionChanges = 0;
 let audioEnabled = false;
 let audioContext;
-let currentAltar = "ancestor";
+let currentAltar = altars[ritual.dataset.initialAltar] ? ritual.dataset.initialAltar : "ancestor";
 let customWish = "";
 let effectsRequested = false;
 let sceneRequestId = 0;
 let hasSeenOnboarding = false;
 let shareImagePromise = null;
+const wishStorageKey = ritual.dataset.wishStorageKey || "tam-huong-wish";
+const onboardingStorageKey = ritual.dataset.onboardingStorageKey || "tam-huong-onboarding-v1";
+const shareFilename = ritual.dataset.shareFilename || "tam-huong.jpg";
+const shareTitle = ritual.dataset.shareTitle || "Tâm Hương – Một phút an yên";
+const shareText = ritual.dataset.shareText || "Một nén tâm hương, một lời nguyện bình an.";
+const pageAltarKeys = altarOptions.map((option) => option.dataset.altar).filter((key) => altars[key]);
 
 try {
-  customWish = window.localStorage.getItem("tam-huong-wish") || "";
-  hasSeenOnboarding = window.localStorage.getItem("tam-huong-onboarding-v1") === "seen";
+  customWish = window.localStorage.getItem(wishStorageKey) || "";
+  hasSeenOnboarding = window.localStorage.getItem(onboardingStorageKey) === "seen";
 } catch {
   customWish = "";
 }
@@ -221,11 +240,12 @@ function setLetterSpacing(context, value) {
 
 async function createShareImage(altarKey, wish) {
   const altar = altars[altarKey];
-  const [background, incense, smokeA, smokeB] = await Promise.all([
+  const [background, incense, smokeA, smokeB, burner] = await Promise.all([
     loadCanvasImage(assetUrl(`${altar.imageName}.webp`)),
     loadCanvasImage(assetUrl("planted-incense-real.webp")),
     loadCanvasImage(assetUrl("incense-smoke-wisp-1.webp")).catch(() => null),
-    loadCanvasImage(assetUrl("incense-smoke-wisp-2.webp")).catch(() => null)
+    loadCanvasImage(assetUrl("incense-smoke-wisp-2.webp")).catch(() => null),
+    altar.burnerImage ? loadCanvasImage(assetUrl(altar.burnerImage)).catch(() => null) : Promise.resolve(null)
   ]);
   // Google Fonts serves Vietnamese glyphs in a separate unicode-range file, and
   // canvas text does not trigger that download, so request it explicitly.
@@ -270,6 +290,15 @@ async function createShareImage(altarKey, wish) {
   vignette.addColorStop(1, "rgba(4, 2, 1, .45)");
   context.fillStyle = vignette;
   context.fillRect(0, 0, width, height);
+
+  // A page-specific burner sits on the same insertion line as the baked-in
+  // burners used by the original altar scenes.
+  if (burner) {
+    const burnerWidth = 210;
+    const burnerHeight = burner.naturalHeight * (burnerWidth / burner.naturalWidth);
+    const burnerLineY = height * (1 - parseFloat(altar.burnerBottom) / 100);
+    context.drawImage(burner, (width - burnerWidth) / 2, burnerLineY - burnerHeight * .28, burnerWidth, burnerHeight);
+  }
 
   // .planted-incense and .smoke-field, positioned from the altar's burner line.
   const incenseHeight = 165;
@@ -386,7 +415,7 @@ function downloadShareImage(blob) {
   const downloadUrl = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = downloadUrl;
-  link.download = "tam-huong.jpg";
+  link.download = shareFilename;
   document.body.append(link);
   link.click();
   link.remove();
@@ -413,13 +442,13 @@ async function shareImage() {
     const blob = await shareImagePromise;
     if (!blob) throw new Error("Không thể tạo hình chia sẻ.");
 
-    const file = new File([blob], "tam-huong.jpg", { type: "image/jpeg" });
+    const file = new File([blob], shareFilename, { type: "image/jpeg" });
     if (!isDesktop && navigator.share && navigator.canShare?.({ files: [file] })) {
       try {
         await navigator.share({
           files: [file],
-          title: "Tâm Hương – Một phút an yên",
-          text: "Một nén tâm hương, một lời nguyện bình an."
+          title: shareTitle,
+          text: shareText
         });
         setShareState("Đã chia sẻ", "Hình đã được chia sẻ.");
       } catch (error) {
@@ -714,7 +743,7 @@ function closeOnboarding() {
   onboardingCard.setAttribute("aria-hidden", "true");
   onboardingBackdrop.setAttribute("aria-hidden", "true");
   try {
-    window.localStorage.setItem("tam-huong-onboarding-v1", "seen");
+    window.localStorage.setItem(onboardingStorageKey, "seen");
   } catch {
     // The onboarding can still be dismissed when storage is unavailable.
   }
@@ -724,8 +753,8 @@ function closeOnboarding() {
 function saveWish() {
   customWish = wishInput.value.trim();
   try {
-    if (customWish) window.localStorage.setItem("tam-huong-wish", customWish);
-    else window.localStorage.removeItem("tam-huong-wish");
+    if (customWish) window.localStorage.setItem(wishStorageKey, customWish);
+    else window.localStorage.removeItem(wishStorageKey);
   } catch {
     // The ritual still works when private browsing blocks local storage.
   }
@@ -738,7 +767,7 @@ function saveWish() {
 function clearWish() {
   wishInput.value = "";
   customWish = "";
-  try { window.localStorage.removeItem("tam-huong-wish"); } catch { /* no-op */ }
+  try { window.localStorage.removeItem(wishStorageKey); } catch { /* no-op */ }
   updateWishCount();
   renderWish();
 }
@@ -751,7 +780,7 @@ function selectAltar(key, direction = 0) {
     return;
   }
 
-  const altarKeys = Object.keys(altars);
+  const altarKeys = pageAltarKeys;
   const previousIndex = altarKeys.indexOf(currentAltar);
   const nextIndex = altarKeys.indexOf(key);
   const transitionDirection = direction || (nextIndex > previousIndex ? 1 : -1);
@@ -797,7 +826,8 @@ function selectAltar(key, direction = 0) {
 }
 
 function switchAltarBy(direction) {
-  const altarKeys = Object.keys(altars);
+  const altarKeys = pageAltarKeys;
+  if (altarKeys.length < 2) return;
   const currentIndex = altarKeys.indexOf(currentAltar);
   const nextIndex = (currentIndex + direction + altarKeys.length) % altarKeys.length;
   selectAltar(altarKeys[nextIndex], direction);
@@ -849,6 +879,9 @@ soundButton.addEventListener("click", () => {
 window.visualViewport?.addEventListener("resize", updateWishViewport);
 window.addEventListener("orientationchange", () => setTimeout(updateWishViewport, 120));
 
+const initialAltar = altars[currentAltar];
+ritual.style.setProperty("--burner-bottom", initialAltar.burnerBottom);
+currentAltarLabel.textContent = initialAltar.label;
 setProgress(0);
 setShareState(SHARE_IDLE_LABEL);
 renderWish();

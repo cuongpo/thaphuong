@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#3a0710" />
     <meta name="color-scheme" content="dark" />
-    <meta name="description" content="Thắp một nén tâm hương cầu qua môn dành cho sinh viên Bách khoa Hà Nội. Chọn môn học, giữ nút để thắp hương và nhớ ôn bài thật kỹ." />
+    <meta name="description" content="Thắp một nén tâm hương cầu qua môn dành cho sinh viên Bách khoa Hà Nội. Tịnh hương, cắm vào lư và nhớ ôn bài thật kỹ." />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://pray.cuongpo.com/bachkhoa/" />
     <link rel="alternate" hreflang="vi-VN" href="https://pray.cuongpo.com/bachkhoa/" />
@@ -55,84 +55,160 @@
     </script>
   </head>
   <body>
-    <main class="bk-shell" id="bkApp" data-state="idle">
-      <picture class="campus-picture" aria-hidden="true">
-        <source srcset="/assets/bachkhoa-campus-480.webp 480w, /assets/bachkhoa-campus.webp 1024w" sizes="(max-width: 480px) 100vw, 480px" type="image/webp" />
-        <img src="/assets/bachkhoa-campus.webp" width="1024" height="1536" alt="" fetchpriority="high" decoding="async" />
-      </picture>
-      <div class="campus-shade" aria-hidden="true"></div>
-      <div class="paper-grain" aria-hidden="true"></div>
+    <main
+      class="phone-shell bachkhoa-shell"
+      id="ritual"
+      data-phase="shake"
+      data-initial-altar="bachkhoa"
+      data-wish-storage-key="tam-huong-bachkhoa-course"
+      data-onboarding-storage-key="tam-huong-bachkhoa-onboarding-v1"
+      data-share-filename="via-qua-mon-bach-khoa.jpg"
+      data-share-title="Thắp hương cầu qua môn Bách khoa"
+      data-share-text="May mắn 10%, ôn bài 90%. Cùng xin vía qua môn!"
+    >
+      <img class="scene" src="/assets/bachkhoa-campus-480.webp" srcset="/assets/bachkhoa-campus-480.webp 480w, /assets/bachkhoa-campus.webp 1024w" sizes="(max-width: 430px) 100vw, 430px" width="1024" height="1536" alt="" decoding="async" fetchpriority="high" aria-hidden="true" />
+      <div class="scene-shade" aria-hidden="true"></div>
+      <img class="scene-burner" src="/assets/bachkhoa-burner.webp" width="640" height="648" alt="" decoding="async" aria-hidden="true" />
+      <div class="grain" aria-hidden="true"></div>
 
-      <header class="bk-topbar">
-        <a class="home-link" href="/" aria-label="Về Tâm Hương">
-          <span class="home-mark" aria-hidden="true">心</span>
-          <span><strong>TÂM HƯƠNG</strong><small>Bách khoa · Qua môn</small></span>
+      <header class="topbar">
+        <a class="brand-home" href="/" aria-label="Về trang Tâm Hương">
+          <span class="brand-mark" aria-hidden="true">心</span>
+          <span class="brand-copy"><span>TÂM HƯƠNG</span><small>Bách khoa · Qua môn</small></span>
         </a>
-        <button class="sound-button" id="soundButton" type="button" aria-label="Bật âm thanh" aria-pressed="false">
-          <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12 1 4 4m0-4-4 4"/></svg>
+        <button class="altar-toggle" id="altarToggle" type="button" aria-haspopup="dialog" aria-controls="altarPicker" aria-expanded="false">
+          <span id="currentAltar">Bách khoa</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
+        </button>
+        <button class="sound-toggle" type="button" aria-label="Bật âm thanh" aria-pressed="false">
           <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12.5-.5a5 5 0 0 1 0 7M19.8 6a8.2 8.2 0 0 1 0 12"/></svg>
+          <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12 1 4 4m0-4-4 4"/></svg>
         </button>
       </header>
 
-      <section class="bk-hero" aria-labelledby="pageTitle">
-        <p class="hero-kicker">TRƯỚC GIỜ G · BÌNH TĨNH NÀO</p>
-        <h1 id="pageTitle">Thắp hương<br /><em>cầu qua môn</em></h1>
-        <p class="hero-copy" id="heroCopy">Gửi một chút may mắn cho môn đang làm bạn mất ngủ.</p>
+      <div class="altar-dots" aria-hidden="true"><i class="is-active" data-dot="bachkhoa"></i></div>
+
+      <section class="intro-copy" aria-live="polite">
+        <p class="eyebrow" id="eyebrow">TRƯỚC GIỜ G · BÌNH TĨNH NÀO</p>
+        <h1 id="title">Thắp hương<br /><em>cầu qua môn</em></h1>
+        <p class="message" id="message">Gửi một chút may mắn cho môn đang làm bạn mất ngủ.</p>
       </section>
 
-      <form class="course-card" id="courseForm" novalidate>
-        <label for="courseInput">Môn bạn cần qua</label>
-        <div class="course-input-wrap">
-          <input id="courseInput" name="course" type="text" maxlength="60" placeholder="Ví dụ: Giải tích 2" autocomplete="off" enterkeyhint="done" aria-describedby="courseHint courseError" />
-          <span class="input-icon" aria-hidden="true">✦</span>
-        </div>
-        <p class="course-error" id="courseError" role="alert"></p>
-        <div class="course-chips" aria-label="Môn học gợi ý">
-          <button type="button" data-course="Giải tích 2">Giải tích</button>
-          <button type="button" data-course="Vật lý đại cương">Vật lý</button>
-          <button type="button" data-course="Đại số">Đại số</button>
-          <button type="button" data-course="Cấu trúc dữ liệu">CTDL</button>
-        </div>
-      </form>
+      <div class="progress-orbit" id="progressOrbit" role="progressbar" aria-label="Tiến độ tịnh hương cầu qua môn" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle class="orbit-track" cx="24" cy="24" r="21" />
+          <circle class="orbit-value" cx="24" cy="24" r="21" />
+        </svg>
+        <span id="progressValue">0</span>
+      </div>
 
-      <section class="ritual-stage" aria-label="Ba nén hương cầu qua môn">
-        <div class="smoke-field" aria-hidden="true">
-          <img class="smoke-art" src="/assets/bachkhoa-smoke.webp" width="512" height="768" alt="" decoding="async" />
-        </div>
-        <div class="incense-glow" aria-hidden="true"></div>
-        <img class="incense-sticks" src="/assets/bachkhoa-incense.webp" width="512" height="768" alt="" aria-hidden="true" decoding="async" />
-        <img class="incense-burner" src="/assets/bachkhoa-burner.webp" width="640" height="648" alt="" aria-hidden="true" decoding="async" />
-        <div class="spark-field" id="sparkField" aria-hidden="true"></div>
-      </section>
+      <div class="planted-incense" aria-hidden="true">
+        <img data-effect-src="planted-incense-real.webp" width="512" height="768" alt="" decoding="async" />
+      </div>
+      <div class="smoke-field" aria-hidden="true">
+        <img class="smoke smoke-a" data-effect-src="incense-smoke-wisp-1.webp" width="512" height="768" alt="" decoding="async" />
+        <img class="smoke smoke-b" data-effect-src="incense-smoke-wisp-2.webp" width="512" height="768" alt="" decoding="async" />
+        <img class="smoke smoke-c" data-effect-src="incense-smoke-wisp-1.webp" width="512" height="768" alt="" decoding="async" />
+      </div>
 
-      <section class="action-card" aria-live="polite">
-        <div class="action-idle">
-          <p id="holdHint">Nhập tên môn, rồi giữ nút trong 3 giây</p>
-          <button class="hold-button" id="holdButton" type="button">
-            <span class="hold-fill" aria-hidden="true"></span>
-            <span class="hold-icon" aria-hidden="true">☝</span>
-            <span class="hold-label">Giữ để thắp hương</span>
-            <span class="hold-progress" id="holdProgress">0%</span>
+      <div class="hand-layer" id="handLayer" aria-hidden="true">
+        <img src="/assets/praying-hands-incense-480.webp" srcset="/assets/praying-hands-incense-480.webp 480w, /assets/praying-hands-incense-768.webp 768w, /assets/praying-hands-incense.webp 1024w" sizes="(max-width: 430px) 78vw, 336px" width="1024" height="1536" alt="" decoding="async" draggable="false" />
+      </div>
+
+      <button class="wish-button" id="wishButton" type="button" aria-haspopup="dialog" aria-controls="wishSheet" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.7A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z"/><path d="M12 8.3V14m-2.2-2.2h4.4"/></svg>
+        <span>Môn cần qua</span><i aria-hidden="true"></i>
+      </button>
+
+      <button class="reset-button" id="resetButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 6M20 5v6h-6"/></svg>
+        Cầu cho môn khác
+      </button>
+      <button class="share-button" id="shareButton" type="button" aria-describedby="shareStatus">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.5M8.2 13.2l7.6 4.5"/></svg>
+        <span id="shareLabel">Chia sẻ vía qua môn</span>
+      </button>
+      <p class="visually-hidden" id="shareStatus" aria-live="polite"></p>
+
+      <p class="footer-note">Kéo lên xuống đến 100% · Đưa hương vào lư rồi thả</p>
+      <button class="guide-button" id="guideButton" type="button" aria-label="Xem hướng dẫn" aria-haspopup="dialog" aria-controls="guideSheet" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 1 1 3.4 2c-.8.4-1.2.9-1.2 1.8v.2M12 17h.01"/></svg>
+      </button>
+      <div class="drag-surface" id="dragSurface" aria-label="Cầm tay kéo hương lên xuống rồi cắm vào lư"></div>
+
+      <div class="picker-backdrop" id="pickerBackdrop" aria-hidden="true"></div>
+      <section class="altar-picker" id="altarPicker" role="dialog" aria-modal="true" aria-labelledby="pickerTitle" aria-hidden="true">
+        <div class="picker-handle" aria-hidden="true"></div>
+        <div class="picker-heading">
+          <div><p>KHÔNG GIAN CẦU MAY</p><h2 id="pickerTitle">Bách khoa</h2></div>
+          <button class="picker-close" id="pickerClose" type="button" aria-label="Đóng bảng chọn"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg></button>
+        </div>
+        <div class="altar-options">
+          <button class="altar-option is-selected" type="button" data-altar="bachkhoa" aria-pressed="true">
+            <span class="option-image option-bachkhoa"></span>
+            <span class="option-copy"><strong>Bách khoa</strong><small>Cầu may trước giờ thi</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
           </button>
         </div>
+      </section>
 
-        <div class="action-done">
-          <p class="done-kicker">HƯƠNG ĐÃ THẮP · TÂM ĐÃ TĨNH</p>
-          <h2>Chúc bạn qua môn<br /><strong id="courseResult">này</strong>!</h2>
-          <p>May mắn 10%, ôn bài 90%. Giờ mở giáo trình thôi.</p>
-          <div class="done-actions">
-            <button id="shareButton" type="button">Chia sẻ vía qua môn</button>
-            <button id="resetButton" type="button" aria-label="Cầu cho môn khác">Làm lại</button>
-          </div>
-          <span class="share-status" id="shareStatus" role="status"></span>
+      <div class="wish-backdrop" id="wishBackdrop" aria-hidden="true"></div>
+      <section class="wish-sheet" id="wishSheet" role="dialog" aria-modal="true" aria-labelledby="wishTitle" aria-hidden="true">
+        <div class="picker-heading wish-heading">
+          <div><p>GỬI THEO LÀN KHÓI HƯƠNG</p><h2 id="wishTitle">Môn cần qua</h2></div>
+          <button class="picker-close" id="wishClose" type="button" aria-label="Đóng"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg></button>
+        </div>
+        <div class="wish-chips" aria-label="Môn học gợi ý">
+          <button type="button" data-wish="Qua môn Giải tích 2">Giải tích 2</button>
+          <button type="button" data-wish="Qua môn Vật lý đại cương">Vật lý</button>
+          <button type="button" data-wish="Qua môn Đại số">Đại số</button>
+          <button type="button" data-wish="Qua môn Cấu trúc dữ liệu">CTDL</button>
+        </div>
+        <label class="wish-input-wrap" for="wishInput">
+          <textarea id="wishInput" maxlength="160" rows="4" placeholder="Ví dụ: Qua môn Giải tích 2..."></textarea>
+          <span><b id="wishCount">0</b>/160</span>
+        </label>
+        <div class="wish-actions">
+          <button class="wish-clear" id="wishClear" type="button">Xóa</button>
+          <button class="wish-save" id="wishSave" type="button">Chọn môn<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 10 3 3 7-7" /></svg></button>
+        </div>
+        <p class="wish-privacy">Tên môn chỉ được lưu trên thiết bị này.</p>
+      </section>
+
+      <div class="guide-backdrop" id="guideBackdrop" aria-hidden="true"></div>
+      <section class="guide-sheet" id="guideSheet" role="dialog" aria-modal="true" aria-labelledby="guideTitle" aria-hidden="true">
+        <div class="picker-handle" aria-hidden="true"></div>
+        <div class="picker-heading guide-heading">
+          <div><p>BÁCH KHOA · QUA MÔN</p><h2 id="guideTitle">Cách thắp hương</h2></div>
+          <button class="picker-close" id="guideClose" type="button" aria-label="Đóng hướng dẫn"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg></button>
+        </div>
+        <div class="guide-content">
+          <p class="guide-intro">Một nghi thức vui để bình tâm trước kỳ thi. Không thay thế việc học và đây không phải trang chính thức của HUST.</p>
+          <h3>Ba bước cầu qua môn</h3>
+          <ol>
+            <li>Nhấn “Môn cần qua” để ghi tên môn học.</li>
+            <li>Cầm tay kéo nén hương lên xuống đến khi tiến độ đạt 100.</li>
+            <li>Đưa nén hương vào lư rồi thả tay để hoàn tất.</li>
+          </ol>
+          <a class="guide-more" href="/"><span>Về Tâm Hương</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg></a>
         </div>
       </section>
 
-      <footer class="bk-footer">
-        <span>Trang vui giúp bình tâm, không thay thế việc học.</span>
-        <span>Không phải trang chính thức của HUST.</span>
-      </footer>
+      <div class="onboarding-backdrop" id="onboardingBackdrop" aria-hidden="true"></div>
+      <section class="onboarding-card" id="onboardingCard" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle" aria-describedby="onboardingDescription" aria-hidden="true">
+        <div class="onboarding-gesture" aria-hidden="true"><span class="gesture-arrow">↕</span><span class="gesture-incense"><i></i><i></i><i></i></span></div>
+        <p class="onboarding-eyebrow">BÁCH KHOA · QUA MÔN</p>
+        <h2 id="onboardingTitle">Cách thắp hương</h2>
+        <p class="onboarding-description" id="onboardingDescription">Giống hệt nghi thức ở trang Tâm Hương.</p>
+        <ol class="onboarding-steps">
+          <li><span>1</span><p><strong>Lắc nhẹ</strong> nén hương lên xuống đến khi vòng tiến độ đạt 100.</p></li>
+          <li><span>2</span><p><strong>Đưa hương vào lư</strong> rồi thả tay để hoàn tất.</p></li>
+          <li><span>3</span><p><strong>Chọn môn cần qua</strong> để gửi lời cầu may riêng.</p></li>
+        </ol>
+        <button class="onboarding-start" id="onboardingStart" type="button">Đã hiểu, bắt đầu</button>
+        <p class="onboarding-note">May mắn 10%, ôn bài 90%.</p>
+      </section>
     </main>
-    <script type="module" src="/src/bachkhoa.js"></script>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
